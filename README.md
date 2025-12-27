@@ -155,6 +155,26 @@ If Aesop fails, you may need to refine your precondition definition or provide y
 ## Example Exercise
 
 ```lean
+/-
+-----Description-----
+This task requires writing a Lean 4 method that determines whether two given
+integers have opposite signs. In other words, the method should return true if
+one integer is positive and the other is negative. Note that zero is considered
+neither positive nor negative; therefore, if either integer is zero, the method
+should return false.
+
+-----Input-----
+The input consists of two integers:
+a: An integer.
+b: An integer.
+
+-----Output-----
+The output is a Boolean value:
+Returns true if one of the integers is positive and the other is negative
+(i.e., they have opposite signs).
+Returns false if both integers are either non-negative or non-positive, or if
+one (or both) is zero.
+-/
 @[reducible, simp]
 def hasOppositeSign_precond (a : Int) (b : Int) : Prop :=
   True
