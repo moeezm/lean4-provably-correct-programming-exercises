@@ -262,6 +262,7 @@ def generate_template(exercise: Exercise) -> str:
     """Generate complete Lean template for an exercise"""
     sections = [
         "import Aesop",
+        "import Mathlib.Tactic",
         "",
         format_description(exercise.description),
         "",
