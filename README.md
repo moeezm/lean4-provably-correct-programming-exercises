@@ -1,4 +1,6 @@
-# Lean 4 Formally Verified Coding Exercises
+# Lean 4 Provably Correct Programming Exercises
+
+(script and README written mostly by Claude)
 
 A collection of programming exercises for learning how to program and prove correctness of programs in Lean 4. Each exercise challenges you to implement a function, define preconditions and postconditions, and prove that your implementation satisfies the specification.
 
