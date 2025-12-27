@@ -32,7 +32,7 @@ This will:
 
 ## Exercise Structure
 
-Each exercise consists of **five main parts**.
+There are **basic** and **advanced** exercises. Each exercise consists of **five main parts**.
 
 ### 1. Natural Language Description
 
