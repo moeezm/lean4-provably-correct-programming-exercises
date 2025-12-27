@@ -226,7 +226,9 @@ def format_test_guards(exercise: Exercise) -> str:
                 values.append(f"({serialize_value(value, param.param_type)})")
 
             values_str = " ".join(values)
-            guards.append(f"#guard ¬({sig.name}_precond {values_str})")
+            guards.append(f"example : ¬({sig.name}_precond {values_str}) := by")
+            guards.append(f"  unfold {sig.name}_precond")
+            guards.append(f"  first | decide | grind | aesop")
         guards.append("")  # Blank line after rejected inputs
 
     # Test cases
@@ -242,19 +244,25 @@ def format_test_guards(exercise: Exercise) -> str:
         values_str = " ".join(values)
         expected = f"({serialize_value(test_case.expected, sig.return_type)})"
 
-        # Guard 1: Precondition is true
-        guards.append(f"#guard {sig.name}_precond {values_str}")
+        # Example 1: Precondition is true
+        guards.append(f"example : {sig.name}_precond {values_str} := by")
+        guards.append(f"  unfold {sig.name}_precond")
+        guards.append(f"  first | decide | grind | aesop")
 
-        # Guard 2: Postcondition on expected output
-        guards.append(f"#guard {sig.name}_postcond {values_str} {expected} (by aesop)")
+        # Example 2: Postcondition on expected output
+        guards.append(f"example : {sig.name}_postcond {values_str} {expected} (by first | decide | grind | aesop) := by")
+        guards.append(f"  unfold {sig.name}_postcond")
+        guards.append(f"  first | decide | grind | aesop")
 
-        # Guard 3: Postcondition is false on unexpected outputs
+        # Example 3: Postcondition is false on unexpected outputs
         for unexpected in test_case.unexpected:
             unexpected_val = f"({serialize_value(unexpected, sig.return_type)})"
-            guards.append(f"#guard ¬({sig.name}_postcond {values_str} {unexpected_val} (by aesop))")
+            guards.append(f"example : ¬({sig.name}_postcond {values_str} {unexpected_val} (by first | decide | grind | aesop)) := by")
+            guards.append(f"  unfold {sig.name}_postcond")
+            guards.append(f"  first | decide | grind | aesop")
 
-        # Guard 4: Function equals expected
-        guards.append(f"#guard {sig.name} {values_str} (by aesop) = {expected}")
+        # Guard 4: Function equals expected (keep as #guard)
+        guards.append(f"#guard {sig.name} {values_str} (by first | decide | grind | aesop) = {expected}")
 
         guards.append("")  # Blank line between test cases
 
@@ -267,6 +275,10 @@ def generate_template(exercise: Exercise) -> str:
         "import Aesop",
         "import Mathlib.Tactic",
         "",
+        "set_option linter.style.longLine false",
+        "set_option linter.unreachableTactic false",
+        "set_option linter.unusedTactic false",
+        "set_option linter.hashCommand false",
         format_description(exercise.description),
         "",
         format_precond_definition(exercise.signature),
