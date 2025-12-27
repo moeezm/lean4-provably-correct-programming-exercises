@@ -155,23 +155,50 @@ If Aesop fails, you may need to refine your precondition definition or provide y
 ## Example Exercise
 
 ```lean
-import Aesop
+/-
+-----Description-----
+This task requires writing a Lean 4 method that determines whether two given
+integers have opposite signs. In other words, the method should return true if
+one integer is positive and the other is negative. Note that zero is considered
+neither positive nor negative; therefore, if either integer is zero, the method
+should return false.
 
+-----Input-----
+The input consists of two integers:
+a: An integer.
+b: An integer.
+
+-----Output-----
+The output is a Boolean value:
+Returns true if one of the integers is positive and the other is negative
+(i.e., they have opposite signs).
+Returns false if both integers are either non-negative or non-positive, or if
+one (or both) is zero.
+-/
 @[reducible, simp]
 def hasOppositeSign_precond (a : Int) (b : Int) : Prop :=
   True
 
 def hasOppositeSign (a : Int) (b : Int) (h_precond : hasOppositeSign_precond a b) : Bool :=
-  (a > 0 ∧ b < 0) ∨ (a < 0 ∧ b > 0)
+  a*b < 0
 
 @[reducible, simp]
 def hasOppositeSign_postcond (a : Int) (b : Int) (result : Bool) (h_precond : hasOppositeSign_precond a b) : Prop :=
-  result = true ↔ ((a > 0 ∧ b < 0) ∨ (a < 0 ∧ b > 0))
+  result ↔ ((a > 0) ∧ (b < 0)) ∨ ((a < 0) ∧ (b > 0))
 
 theorem hasOppositeSign_spec_satisfied (a : Int) (b : Int) (h_precond : hasOppositeSign_precond a b) :
     hasOppositeSign_postcond a b (hasOppositeSign a b h_precond) h_precond := by
-  unfold hasOppositeSign_postcond hasOppositeSign
-  simp
+  simp [hasOppositeSign, hasOppositeSign_precond, hasOppositeSign_postcond] at h_precond ⊢
+  constructor
+  · simp [mul_neg_iff]
+  · intro h
+    cases h with
+    | inl hh =>
+      let ⟨apos, bneg⟩ := hh
+      exact mul_neg_of_pos_of_neg apos bneg
+    | inr hh =>
+      let ⟨aneg, bpos⟩ := hh
+      exact mul_neg_of_neg_of_pos aneg bpos
 ```
 
 ## Solutions
