@@ -30,6 +30,20 @@ This will:
 - Set up the Lean toolchain specified in `lean-toolchain`
 - Prepare the project for development
 
+### 3. Generate Exercise Files
+
+Generate the exercise templates from the dataset:
+
+```bash
+python3 initialize.py
+```
+
+This creates 189 exercise files in `Trainer/`:
+- 108 basic exercises (`verina_basic_*.lean`)
+- 81 advanced exercises (`verina_advanced_*.lean`)
+
+**Note**: The exercise files are not tracked in git. You need to generate them locally before starting work.
+
 ## Exercise Structure
 
 There are **basic** and **advanced** exercises. Each exercise consists of **five main parts**.

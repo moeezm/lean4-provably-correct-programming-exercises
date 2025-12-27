@@ -1,2 +1,5 @@
 .lake/
 .github/
+
+# Generated exercise files (regenerate with python3 initialize.py)
+Trainer/*.lean

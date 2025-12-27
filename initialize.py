@@ -120,8 +120,11 @@ def serialize_value(value: Any, param_type: str = "") -> str:
         # Check if it's already Lean syntax (arrays/lists)
         if value.startswith("#[") or value.startswith("["):
             return value
-        # Otherwise wrap as string
-        return f'"{value}"'
+        # Only wrap in quotes if the parameter type is String
+        if "String" in param_type:
+            return f'"{value}"'
+        # Otherwise, it's likely Lean syntax (like "some (1)", "none", etc.)
+        return value
     elif isinstance(value, list):
         # Convert list to Lean list syntax
         items = [serialize_value(v, param_type) for v in value]
