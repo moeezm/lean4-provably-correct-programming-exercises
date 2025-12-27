@@ -28,7 +28,6 @@ lake build
 This will:
 - Download and build dependencies (which is just Mathlib but includes other stuff like Aesop)
 - Set up the Lean toolchain specified in `lean-toolchain`
-- Prepare the project for development
 
 ### 3. Generate Exercise Files
 
